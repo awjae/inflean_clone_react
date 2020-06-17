@@ -9,21 +9,32 @@ function LandingPage() {
 
     const [Movies, setMovies] = useState([])
     const [MainMovieImage, setMainMovieImage] = useState(null)
+    const [CurrentPage, setCurrntPage] = useState(0)
 
     useEffect (() => {
         const endPoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+        fetchMovies(endPoint) 
+
+    }, [])
+
+    const fetchMovies = (endPoint) => {
         fetch(endPoint)
         .then(response => response.json())
         .then(response => {
             
             console.log(response)
             
-            setMovies([...response.results])
+            setMovies([...Movies, ...response.results])
             setMainMovieImage(response.results[0])
+            setCurrntPage(response.page)
 
         })  
+    }
 
-    }, [])
+    const loadMoreItems = () => {
+        const endPoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=${CurrentPage + 1}`;
+        fetchMovies(endPoint) 
+    }
     
     return (
         <>
@@ -61,7 +72,7 @@ function LandingPage() {
             </div>
         
             <div style={{ display: 'flex', justifyContent: 'center'}}>
-                <button>Load More</button>
+                <button onClick={loadMoreItems}>Load More</button>
             </div>
 
         </div>
