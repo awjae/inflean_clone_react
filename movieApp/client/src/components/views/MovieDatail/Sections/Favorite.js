@@ -3,11 +3,11 @@ import Axios from 'axios'
 import { Button } from 'antd'
 
 function Favorite(props) {
-
+    console.log(props)
     const movieId = props.movieId
     const userFrom = props.userFrom
-    const movieTitle = props.movieInfo.movieTitle
-    const moviePost = props.movieInfo.backfrop_path
+    const movieTitle = props.movieInfo.original_title
+    const moviePost = props.movieInfo.backdrop_path
     const movieRuntime = props.movieInfo.runtime 
 
 
@@ -22,11 +22,10 @@ function Favorite(props) {
     }
 
     useEffect(() => {
-    
-
         Axios.post('/api/favorite/favoriteNumber', variables)
             .then(response => {
                 if (response.data.success) {
+                
                     setFavoriteNumber(response.data.favoriteNumber || 0)
                 } else {
                     alert('숫자정보를 가져오는데 실패했습니다.')
@@ -59,6 +58,7 @@ function Favorite(props) {
             Axios.post('/api/favorite/addFromFavorite', variables)
                 .then(response => {
                     if(response.data.success) {
+                        console.log(variables)
                         setFavoriteNumber(FavoriteNumber + 1)
                         setFavorited(!Favorited)
                     } else {

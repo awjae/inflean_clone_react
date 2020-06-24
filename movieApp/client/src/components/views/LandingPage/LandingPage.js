@@ -21,9 +21,6 @@ function LandingPage() {
         fetch(endPoint)
         .then(response => response.json())
         .then(response => {
-            
-            console.log(response)
-            
             setMovies([...Movies, ...response.results])
             setMainMovieImage(response.results[0])
             setCurrntPage(response.page)
@@ -60,7 +57,7 @@ function LandingPage() {
                                 image={movie.poster_path ? 
                                 `${IMAGE_BASE_URL}w500${movie.poster_path}` : null}
                                 movieId={movie.id}
-                                movieName={movie.original_title}>
+                                movieTitle={movie.original_title}>
                                     
                             </GridCard>
 

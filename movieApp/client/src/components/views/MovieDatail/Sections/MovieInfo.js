@@ -4,9 +4,10 @@ import { Descriptions } from 'antd'
 function MovieInfo(props) {
 
     let { movie } = props;
+
     return (
-        <Descriptions title="Movie Info" bordered>
-            <Descriptions.Item label="Title">{movie.original_title}</Descriptions.Item>
+        <Descriptions title="movie Info" bordered>
+            <Descriptions.Item label="title">{movie.original_title}</Descriptions.Item>
             <Descriptions.Item label="release_date">{movie.release_date}</Descriptions.Item>
             <Descriptions.Item label="revenue">{movie.revenue}</Descriptions.Item>
             <Descriptions.Item label="runtime">{movie.runtime}</Descriptions.Item>
