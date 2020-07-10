@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import Auth from "../hoc/auth";
 // pages for this product
 import LandingPage from "./views/LandingPage/LandingPage.js";
+import LandingPage2 from "./views/LandingPage/LandingPage2.js";
 import LoginPage from "./views/LoginPage/LoginPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
@@ -26,6 +27,7 @@ function App() {
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/movie/:movieId" component={Auth(MovieDetail, null)} />
           <Route exact path="/favorite" component={Auth(FavoritePage, true)} />
+          <Route exact path="/video" component={Auth(LandingPage2, null)} />
           <Route exact path="/video/upload" component={Auth(VideoUploadPage, true)} />
         </Switch>
       </div>
