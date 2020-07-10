@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Typography, Button, Form, message, Input, Icon} from 'antd';
 import Dropzone from 'react-dropzone';
+import Axios from 'axios';
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -22,6 +23,13 @@ function VideoUploadPage() {
     const [Description, setDescription] = useState("")
     const [Private, setPrivate] = useState(0)
     const [Category, setCategory] = useState("Film & Animation")
+
+    const [FilePath, setFilePath] = useState("")
+    const [FileDuration, setFileDuration] = useState("")
+    const [FileName, setFileName] = useState("")
+    const [ThubnailPath, setThubnailPath] = useState("")
+
+
     const onTitleChange = (e) => {
         setVideoTitle(e.currentTarget.value)
     }
@@ -33,6 +41,50 @@ function VideoUploadPage() {
     }
     const onCategoryChange = (e) => {
         setCategory(e.currentTarget.value)
+    }
+    const onDrop = (files) => {
+
+        let formData = new FormData();
+        const config = {
+            header: {'content-type': 'multipart/form-data'}
+        }
+        formData.append("file", files[0])
+
+        Axios.post('/api/video/uploadfiles', formData, config)
+            .then(response => {
+                if(response.data.success) {
+                    console.log(response.data)
+
+                    let variable = {
+                        url : response.data.url,
+                        fileName : response.data.fileName
+                    }
+
+                    setFilePath(response.data.url)
+
+                    Axios.post('/api/video/thumbnail', variable)
+                        .then(response => {
+                            if(response.data.success) {
+                                console.log(response.data)
+
+                                setFileDuration(response.data.fileDuration)
+                                setThubnailPath(response.data.url)
+                                setFileName(response.data.FileName)
+
+
+
+
+                            } else {
+                               alert('썸네일 생성에 실패했습니다.') 
+                            }
+                        })
+
+
+                } else {
+                    alert('비디로 업로드를 실패 했습니다.')
+                }
+            })
+
     }
 
 
@@ -46,13 +98,13 @@ function VideoUploadPage() {
                     {/* 컨텐츠마무ㅡ리 */}
 
                     <Dropzone
-                        onDrop
-                        multiple
-                        maxSize
+                        onDrop={onDrop}
+                        multiple={false}
+                        maxSize={10000000000}
                         >
                         {({ getRootProps, getInputProps }) => (
                             <div style={{ width:'300px', height:'240px', border:'1px solid lightgray',
-                            alignItems:'center', justifyContent:'center'}} {...getRootProps()}>
+                            alignItems:'center', justifyContent:'center', display:'flex'}} {...getRootProps()}>
                                 <input {...getInputProps()} />
                                 <Icon type="plus" style={{ fontSize:'3rem'}} />
                             </div>
@@ -60,9 +112,11 @@ function VideoUploadPage() {
 
                     </Dropzone>
 
-                    <div>
-                        <img src alt/>
-                    </div>
+                    { ThubnailPath &&
+                        <div>
+                            <img src={`http://localhost:5000/${ThubnailPath}`} alt={'thumbnail'}/>
+                        </div>
+                    }
                 </div>
 
 
