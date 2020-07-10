@@ -14,3 +14,4 @@ yarn-error.log*
 .vscode
 
 /uploads/
+ffmpeg-4.3-win64-static/
