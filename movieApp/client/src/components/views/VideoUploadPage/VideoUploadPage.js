@@ -108,7 +108,7 @@ function VideoUploadPage(props) {
                     message.success('성공적으로 업로드 했습니다.')
 
                     setTimeout(() => {
-                        props.history.push('/')
+                        props.history.push('/video')
                     }, 3000);
                 } else {
                     alert('비디오 DB INSERT를 실패 했습니다.')
