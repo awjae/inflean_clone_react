@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Axios from 'axios'
 import { useSelector } from 'react-redux'
+import SingleComment from './SingleComment'
 
 function Comment(props) {
 
@@ -26,6 +27,8 @@ function Comment(props) {
             .then(response => {
                 if(response.data.success) {
                     console.log(response.data.result)
+                    setcommentValue("")
+                    props.refreshFunction(response.data.result)
                 } else {
                     alert('커맨드를 저장하지 못했습니다.')
                 }
@@ -35,7 +38,15 @@ function Comment(props) {
         <div>
             <br />
             <p> Replies </p>
-            <br />
+            <hr />
+
+            {props.commentLists && props.commentLists.map((comment, index) => (
+                
+                (!comment.responseTo &&
+                    <SingleComment refreshFunction={props.refreshFunction} comment={comment} postId={videoId}/>
+                )
+
+            ))}
 
 
             <form style={{ display: 'flex'}} onSubmit={onSubmit}>
