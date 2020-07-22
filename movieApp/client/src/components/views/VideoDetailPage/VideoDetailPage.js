@@ -10,7 +10,6 @@ function VideoDetailPage(props) {
     const videoId = props.match.params.videoId
     const variable = { videoId: videoId }
 
-    const [Comment, setComment] = useState("")
     const [VideoDetail, setVideoDetail] = useState([])
 
     useEffect(() => {
@@ -51,7 +50,7 @@ function VideoDetailPage(props) {
                         </List.Item.Meta>
 
                     </List.Item>
-                    <Comment />
+                    <Comment postId={videoId} />
                 </div>
 
             </Col>
