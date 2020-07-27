@@ -6,7 +6,6 @@ import Axios from 'axios'
 const { TextArea } = Input;
 
 function SingleComment(props) {
-
     const user = useSelector(state => state.user)
     const [OpenReply, setOpenReply] = useState(false)
     const [CommentValue, setCommentValue] = useState("")
@@ -46,12 +45,14 @@ function SingleComment(props) {
     ]
     return (
         <div>
-            <Comment
-                actions={actions}
-                author={props.comment.writer.name}
-                avatar={<Avatar src={props.comment.writer.image} alt />}
-                content={<p> {props.comment.content} </p>}
-            />
+            {props.comment.writer &&
+                <Comment
+                    actions={actions}
+                    author={props.comment.writer.name}
+                    avatar={<Avatar src={props.comment.writer.image} alt />}
+                    content={<p> {props.comment.content} </p>}
+                />
+            }
 
             { OpenReply && 
                 <form style={{ display: 'flex'}} onSubmit={onSubmit}>
